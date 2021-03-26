@@ -1,0 +1,38 @@
+ command line:
+   ./faa_isim_beh.exe
+     -intstyle  ise
+     -ipchost  localhost
+     -ipcport  59028
+
+Fri Mar 26 13:29:33 2021
+
+Total Line Count : 203
+
+ Elaboration time : 0.03125 sec.
+
+ Estimate current memory usage : 158.802 Meg. 
+
+ Total Signals          : 144
+ Total Nets             : 65
+ Total Signal Drivers   : 46
+ Total Blocks           : 27
+ Total Primitive Blocks : 17
+ Total Processes        : 49
+ Total Traceable Variables  : 20
+ Total Scalar Nets and Variables : 161
+ntrace select -o on -n /faa/cout 
+ntrace select -o on -n /faa/s 
+ntrace select -o on -n /faa/cin 
+ntrace select -o on -n /faa/a 
+ntrace select -o on -n /faa/b 
+ntrace start 
+isimrun 1000 ns 
+Simulator is doing circuit initialization process.
+Finished circuit initialization process.
+
+ Simulation time 0.046875 sec.
+
+ Estimate current memory usage : 164.442 Meg. 
+
+Fri Mar 26 15:40:43 2021
+

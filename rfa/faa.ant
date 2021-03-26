@@ -1,0 +1,97 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1995-2007 Xilinx, Inc.
+// All Right Reserved.
+////////////////////////////////////////////////////////////////////////////////
+//   ____  ____ 
+//  /   /\/   / 
+// /___/  \  /    Vendor: Xilinx 
+// \   \   \/     Version : 9.2i
+//  \   \         Application : ISE
+//  /   /         Filename : faa.ant
+// /___/   /\     Timestamp : Fri Mar 26 13:29:56 2021
+// \   \  /  \ 
+//  \___\/\___\ 
+//
+//Command: 
+//Design Name: faa
+//Device: Xilinx
+//
+`timescale 1ns/1ps
+
+module faa;
+    reg [7:0] a = 8'b00000000;
+    reg [7:0] b = 8'b00000000;
+    reg cin = 1'b0;
+    wire cout;
+    wire [7:0] s;
+
+
+    raf UUT (
+        .a(a),
+        .b(b),
+        .cin(cin),
+        .cout(cout),
+        .s(s));
+
+    integer TX_FILE = 0;
+    integer TX_ERROR = 0;
+    
+    initial begin    // Annotation process
+        #0;
+        ANNOTATE_cout;
+        ANNOTATE_s;
+        forever begin
+            #50;
+            ANNOTATE_cout;
+            ANNOTATE_s;
+            #50;
+        end
+    end
+
+    initial begin  // Open the annotations file...
+        TX_FILE = $fopen("D:\\Xilinix\\experiments\\rfa\\faa.ano");
+        #1000 // Final time:  1000 ns
+        $display("Success! Annotation Simulation Complete.");
+        $fdisplay(TX_FILE, "Total[%d]", TX_ERROR);
+        $fclose(TX_FILE);
+        $finish;
+    end
+
+    initial begin
+        // -------------  Current Time:  100ns
+        #100;
+        cin = 1'b1;
+        a = 8'b11111111;
+        b = 8'b11111111;
+        // -------------------------------------
+        // -------------  Current Time:  200ns
+        #100;
+        cin = 1'b0;
+        // -------------------------------------
+        // -------------  Current Time:  300ns
+        #100;
+        cin = 1'b1;
+        // -------------------------------------
+        // -------------  Current Time:  500ns
+        #200;
+        cin = 1'b0;
+    end
+
+    task ANNOTATE_cout;
+        #0 begin
+            $fdisplay(TX_FILE, "Annotate[%d,cout,%b]", $time, cout);
+            $fflush(TX_FILE);
+            TX_ERROR = TX_ERROR + 1;
+        end
+    endtask
+
+    task ANNOTATE_s;
+        #0 begin
+            $fdisplay(TX_FILE, "Annotate[%d,s,%b]", $time, s);
+            $fflush(TX_FILE);
+            TX_ERROR = TX_ERROR + 1;
+        end
+    endtask
+
+endmodule
+
